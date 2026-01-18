@@ -3,6 +3,7 @@
 src/fallof_detroix23/modules/statistics.py
 """
 
+import math
 import time
 
 from fallof_detroix23.modules import simulation
@@ -41,6 +42,19 @@ class PathOutcome:
 			self.steps[self.maximum_steps],
 		)
 
+	def steps_most_frequent(self) -> int:
+		"""
+		Returns the step with the highest frequency.
+		"""
+		maximum_step: int = 0
+		maximum_count: int = 0
+		for step, count in self.steps.items():
+			if count > maximum_count:
+				maximum_step = step
+
+		return maximum_step
+
+
 	def steps_sum(self) -> int:
 		"""
 		Returns the total number of steps made by all robots.
@@ -57,10 +71,41 @@ class PathOutcome:
 		"""
 		return self.steps_sum() / self.total
 
+	def probability_law(self) -> dict[int, float]:
+		"""
+		Returns a table:
+		- event: int ("sample makes N steps"),
+		- probability: float ("event has X chance of happening").
+		"""
+		return {
+			steps: count / self.total 
+			for steps, count in self.steps.items()
+		}
 
+	def variance(self) -> float:
+		"""
+		Return the variance σ² of the data set.
+		```
+		V(x) = Σ(x(i) - avg(x)) ^ 2 * P(x(i))
+		```
+		"""
+		average = self.steps_average()
+		law = self.probability_law()
+		variance: float = 0.0
 
+		for event, probability in law.items():
+			variance += (event - average) * (event - average) * probability
+		
+		return variance
 
-
+	def standard_deviation(self) -> float:
+		"""
+		Return the standard deviation σ.
+		```
+		σ(x) = √(V(x))
+		```
+		"""
+		return math.sqrt(self.variance())
 
 class Statistics:
 	"""

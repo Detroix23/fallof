@@ -18,7 +18,7 @@ If it exits the grid, it wins a point.
 - `--help` | <nothing> : Show this message.
 - `--stats` : Enable statistics measurement.
 - `--visual` : Enable a live animation of the experiment. Stop it with `Ctrl+C`.
-
+- `--test` : Test the assertions (for development).
 """
 
 def move_up(times: int, flush: bool = False) -> None:
