@@ -60,13 +60,8 @@ def run_statistics() -> None:
 	stats = statistics.Statistics(sim)
 	result: statistics.PathOutcome = stats.run(user_times, user_steps)
 	
-	print(result)
-	exited, stayed = result.exited_stayed()
-	print(f"- General: exited={exited} ({exited / (exited + stayed)}), stayed={stayed} ({stayed / (exited + stayed)}).")
-	print(f"- Average: n(total)={result.steps_sum()}, avg(s)={result.steps_average()}, max={result.steps_most_frequent()}")
-	print(f"- Law: {result.probability_law()}")
-	print(f"- Deviation: V(x)={result.variance()}, s(x)={result.standard_deviation()}")
-
+	print("\nResult JSON formatted report: ")
+	print(result.json())
 
 	return
 

@@ -5,8 +5,13 @@ src/fallof_detroix23/modules/statistics.py
 
 import math
 import time
+import datetime
+import json
+from typing import Any
 
-from fallof_detroix23.modules import simulation
+from fallof_detroix23.modules import (
+	simulation,
+)
 
 class PathOutcome:
 	"""
@@ -14,12 +19,14 @@ class PathOutcome:
 	"""
 	total: int
 	maximum_steps: int
+	simulation: simulation.Simulation
 	steps: dict[int, int]
 	time_elapsed: float
 
-	def __init__(self, total: int, maximum_steps: int) -> None:
+	def __init__(self, total: int, maximum_steps: int, simulation: simulation.Simulation) -> None:
 		self.total = total
 		self.maximum_steps = maximum_steps
+		self.simulation: simulation.Simulation = simulation
 		self.steps = {
 			self.maximum_steps: 0,
 		}
@@ -33,6 +40,55 @@ class PathOutcome:
 	time_elapsed={self.time_elapsed},
 ) """
 	
+	def report(self) -> dict[str, Any]:
+		"""
+		Save the data into a `dict`, for future JSON.
+		"""
+		exited, stayed = self.exited_stayed()
+		start = self.simulation.robot.get_start_position()
+
+		return {
+			"date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+			"setup": {
+				"total": self.total,
+				"maximum_steps": self.maximum_steps,
+				"time_elapsed": self.time_elapsed,
+				"start": {
+					"x": start.x,
+					"y": start.y,
+				},
+				"size": {
+					"x": self.simulation.grid.size.x,
+					"y": self.simulation.grid.size.y,
+				},
+			},
+			"raw": self.steps,
+			"statistics": {
+				"probability_law": self.probability_law(),
+				"exited": exited,
+				"stayed": stayed,
+				"exited_frequency": exited / (exited + stayed),
+				"stayed_frequency": stayed / (exited + stayed),
+				"steps_total": self.steps_sum(),
+				"steps_average": self.steps_average(),
+				"steps_most_frequent": self.steps_most_frequent(),
+				"variance": self.variance(),
+				"standard_derivation": self.standard_deviation(),
+			},
+		}
+
+	def json(self) -> str:
+		"""
+		Returns a JSON serialized report as `str`.
+		"""
+		return json.dumps(
+			self.report(), 
+			indent=2,
+			separators=(", ", ": "),
+			ensure_ascii=True,
+		)
+
+
 	def exited_stayed(self) -> tuple[int, int]:
 		"""
 		Returns a `tuple` of exited (0) and stayed (1).
@@ -118,7 +174,7 @@ class Statistics:
 		self.simulation = simulation
 	
 	def run(self, times: int, maximum_steps: int) -> PathOutcome:
-		outcome: PathOutcome = PathOutcome(times, maximum_steps)
+		outcome: PathOutcome = PathOutcome(times, maximum_steps, self.simulation)
 		count: int = 0
 		time_elapsed: float = time.perf_counter()
 

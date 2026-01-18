@@ -25,7 +25,16 @@ class Robot:
 		self.position = position
 		self._start_position = position.clone()
 
+	def get_start_position(self) -> maths.Size:
+		"""
+		Get the read-only `_start_position` of the robot.
+		"""
+		return self._start_position
+
 	def reset(self) -> None:
+		"""
+		Reset the robot to default.
+		"""
 		self.position = self._start_position.clone()
 
 	def step(self) -> int:
