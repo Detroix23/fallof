@@ -1,9 +1,9 @@
 [project]
 name = "fallof_detroix23"
-version = "0.1.0"
-description = "Retro gravity simulator."
+version = "1.0.0"
+description = "Probability of moving on a finite board."
 authors = [
-    { name="Detroix23", email="detroix23@gmail.com" }
+    { name="Detroix23", email="detroix23@gmail.com" },
 ]
 readme = "README.md"
 requires-python = ">=3.12"
@@ -20,7 +20,7 @@ license-files = [
 ]
 
 [project.urls]
-Repository = "https://github.com/Detroix23/"
+Repository = "https://github.com/Detroix23/fallof"
 
 [build-system]
 requires = ["setuptools"]

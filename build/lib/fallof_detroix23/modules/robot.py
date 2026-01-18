@@ -1,0 +1,65 @@
+"""
+# Fallof.
+src/fallof_detroix23/modules/robot.py
+"""
+
+import random
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+	from fallof_detroix23.modules import simulation
+from fallof_detroix23.modules import maths
+
+class Robot:
+	"""
+	# Robot.
+	Simulate the main moving subject.
+	"""
+	parent: 'simulation.Simulation'
+	position: maths.Size
+
+	_start_position: maths.Size
+
+	def __init__(self, parent: 'simulation.Simulation', position: maths.Size) -> None:
+		self.parent = parent
+		self.position = position
+		self._start_position = position.clone()
+
+	def get_start_position(self) -> maths.Size:
+		"""
+		Get the read-only `_start_position` of the robot.
+		"""
+		return self._start_position
+
+	def reset(self) -> None:
+		"""
+		Reset the robot to default.
+		"""
+		self.position = self._start_position.clone()
+
+	def step(self) -> int:
+		"""
+		Robot make a step in a random direction, and return that direction.
+		
+		Directions:
+		```python
+			0. +1y,
+			1. +1x,
+			2. -1y,
+			3. -1x,
+		```
+		"""
+		direction: int = random.randint(0, 3)
+
+		if direction == 0:
+			self.position.y += 1
+		elif direction == 1:
+			self.position.x += 1
+		elif direction == 2:
+			self.position.y -= 1
+		else:
+			self.position.x -= 1
+		
+		# print(f"(?) modules.robot.Robot.step() direction={direction}, pos={self.position}")
+
+		return direction
