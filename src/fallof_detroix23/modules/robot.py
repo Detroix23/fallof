@@ -4,7 +4,10 @@ src/fallof_detroix23/modules/robot.py
 """
 
 import random
+from typing import TYPE_CHECKING
 
+if TYPE_CHECKING:
+	from fallof_detroix23.modules import simulation
 from fallof_detroix23.modules import maths
 
 class Robot:
@@ -12,10 +15,18 @@ class Robot:
 	# Robot.
 	Simulate the main moving subject.
 	"""
+	parent: 'simulation.Simulation'
 	position: maths.Size
 
-	def __init__(self, position: maths.Size) -> None:
+	_start_position: maths.Size
+
+	def __init__(self, parent: 'simulation.Simulation', position: maths.Size) -> None:
+		self.parent = parent
 		self.position = position
+		self._start_position = position.clone()
+
+	def reset(self) -> None:
+		self.position = self._start_position.clone()
 
 	def step(self) -> int:
 		"""
@@ -40,5 +51,6 @@ class Robot:
 		else:
 			self.position.x -= 1
 		
-		return direction
+		# print(f"(?) modules.robot.Robot.step() direction={direction}, pos={self.position}")
 
+		return direction

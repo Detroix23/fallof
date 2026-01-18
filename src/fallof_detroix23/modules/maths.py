@@ -21,3 +21,11 @@ class Size:
 		else:
 			raise TypeError(f"(X) modules.maths.Size.__eq__() {other} not of type `Size`.")
 	
+	def __repr__(self) -> str:
+		return f"Size(x={self.x}, y={self.y})"
+	
+	def clone(self) -> Size:
+		"""
+		Create a new independent clone of `Size`. 
+		"""
+		return Size(self.x, self.y)
