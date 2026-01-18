@@ -1,0 +1,47 @@
+{
+  "date": "2026-01-18_14h27m37s", 
+  "setup": {
+    "total": 10000, 
+    "maximum_steps": 10, 
+    "time_elapsed": 0.06312369999977818, 
+    "start": {
+      "x": 0, 
+      "y": 0
+    }, 
+    "size": {
+      "x": 5, 
+      "y": 5
+    }
+  }, 
+  "raw": {
+    "10": 4202, 
+    "5": 1028, 
+    "6": 886, 
+    "8": 729, 
+    "7": 924, 
+    "9": 696, 
+    "4": 928, 
+    "3": 607
+  }, 
+  "statistics": {
+    "probability_law": {
+      "10": 0.4202, 
+      "5": 0.1028, 
+      "6": 0.0886, 
+      "8": 0.0729, 
+      "7": 0.0924, 
+      "9": 0.0696, 
+      "4": 0.0928, 
+      "3": 0.0607
+    }, 
+    "exited": 5798, 
+    "stayed": 4202, 
+    "exited_frequency": 0.5798, 
+    "stayed_frequency": 0.4202, 
+    "steps_total": 76573, 
+    "steps_average": 7.6573, 
+    "steps_most_frequent": 3, 
+    "variance": 6.00725671, 
+    "standard_derivation": 2.45097056489873
+  }
+}

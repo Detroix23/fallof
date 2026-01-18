@@ -6,7 +6,6 @@ src/fallof_detroix23/modules/statistics.py
 import math
 import time
 import datetime
-import json
 from typing import Any
 
 from fallof_detroix23.modules import (
@@ -48,7 +47,7 @@ class PathOutcome:
 		start = self.simulation.robot.get_start_position()
 
 		return {
-			"date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+			"date": datetime.datetime.now().strftime("%Y-%m-%d_%Hh%Mm%Ss"),
 			"setup": {
 				"total": self.total,
 				"maximum_steps": self.maximum_steps,
@@ -76,18 +75,6 @@ class PathOutcome:
 				"standard_derivation": self.standard_deviation(),
 			},
 		}
-
-	def json(self) -> str:
-		"""
-		Returns a JSON serialized report as `str`.
-		"""
-		return json.dumps(
-			self.report(), 
-			indent=2,
-			separators=(", ", ": "),
-			ensure_ascii=True,
-		)
-
 
 	def exited_stayed(self) -> tuple[int, int]:
 		"""

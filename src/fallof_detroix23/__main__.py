@@ -4,12 +4,14 @@ src/fallof_detroix23/__init__.py
 """
 
 import sys
+import json
 
 from fallof_detroix23.modules import (
 	maths,
 	simulation,
 	statistics,
     cli,
+	logger,
 )
 
 def run_visual() -> None:
@@ -61,7 +63,21 @@ def run_statistics() -> None:
 	result: statistics.PathOutcome = stats.run(user_times, user_steps)
 	
 	print("\nResult JSON formatted report: ")
-	print(result.json())
+	report = result.report()
+
+	report_json_str: str = json.dumps(
+		report, 
+		indent=2,
+		separators=(", ", ": "),
+		ensure_ascii=True,
+	)
+
+	print(report_json_str)
+
+	logger.save_result(
+		report_json_str,
+		"fallof_" + report["date"] 
+	)
 
 	return
 
